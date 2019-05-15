@@ -23,11 +23,12 @@ package utility;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pojo.Company;
+import pojo.JStock;
+import pojo.Stock;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class InputValidator {
@@ -41,8 +42,24 @@ public class InputValidator {
        }
        else
            return null;
+    }
 
-
+    public static void readAllStocks(String fileName) throws IOException, FileNotFoundException {
+        if (fileName != null && !Stock.mapFilled) {
+            InputStream inputStream = new FileInputStream(("data" + File.separatorChar + fileName));
+            List<JStock> JList =  mapper.readValue(inputStream, new TypeReference<JStock>() {});
+            for (JStock jstock:
+                 JList) {
+                Stock tempStock = jstock.toStock();
+                Stock.stocks.put(jstock.getName(), tempStock);
+            }
+            Stock.mapFilled = true;
+            return;
+        }
+        if(Stock.mapFilled){
+            return;
+        }
+        throw new FileNotFoundException();
     }
 
     // TODO - write a method that will validate the inputs to the Company Resource

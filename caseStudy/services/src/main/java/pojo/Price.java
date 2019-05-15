@@ -3,12 +3,14 @@ package pojo;
 import java.util.*;
 
 public class Price {
-    private double price;
-    private Date date;
 
-    public Price(double price, Date date){
-        this.price = price;
+    private Date date;
+    private double price;
+
+    public Price(Date date, double price){
         this.date = date;
+        this.price = price;
+
     }
 
     public double getPrice() {

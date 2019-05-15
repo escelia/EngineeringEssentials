@@ -16,6 +16,9 @@
 
 package resources;
 
+import pojo.Stock;
+import utility.InputValidator;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -36,7 +39,18 @@ public class StockResource {
     @Path("/stock")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStock(String ticker, Date startDate, Date endDate) throws IOException {
-        
+        if(Stock.mapFilled){
+            Stock stock = Stock.stocks.get(ticker);
+            stock.setStartDate(startDate);
+            stock.setEndDate(endDate);
+            return Response.ok().entity(stock.getPrices()).build();
+        }else{
+            InputValidator.readAllStocks("historicalStockData.json");
+            Stock stock = Stock.stocks.get(ticker);
+            stock.setStartDate(startDate);
+            stock.setEndDate(endDate);
+            return Response.ok().entity(stock.getPrices()).build();
+        }
     }
 
 }

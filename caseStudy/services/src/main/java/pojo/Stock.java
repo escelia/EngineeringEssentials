@@ -16,10 +16,7 @@
 
 package pojo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
+import java.util.*;
 
 /**
  * This class will define a company's end-of-day stock price
@@ -28,11 +25,21 @@ import java.util.Date;
 public class Stock {
     // Define the attributes of a stock price based on the
     // provided data in resources/data
-    ArrayList<Price> prices;
-    Date startDate;
-    Date endDate;
+    public static HashMap<String, Stock> stocks = new HashMap<String, Stock>();
+    public static boolean mapFilled = false;
+    private ArrayList<Price> prices;
+    private Date startDate;
+    private Date endDate;
+
 
     public Stock(ArrayList<Price> prices, Date startDate, Date endDate){
+        this.prices = prices;
+        sortPrices();
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Stock(ArrayList<Price> prices){
         this.prices = prices;
         sortPrices();
         this.startDate = prices.get(0).getDate();
