@@ -16,11 +16,27 @@
 
 package resources;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.awt.*;
+import java.io.IOException;
+import java.util.Date;
+
 // TODO - add your @Path here
+@Path("resource")
 public class StockResource {
 
     // TODO - Add a @GET resource to get stock data
     // Your service should return data based on 3 inputs
     // Stock ticker, start date and end date
+    @GET
+    @Path("/stock")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getStock(String ticker, Date startDate, Date endDate) throws IOException {
+        
+    }
 
 }
