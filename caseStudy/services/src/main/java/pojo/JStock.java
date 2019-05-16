@@ -1,25 +1,29 @@
 package pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
+import static utility.InputValidator.DATEFORMAT;
+
 public class JStock {
+    @JsonProperty
     private String name;
+    @JsonProperty
     private Map<String, Double> dailyClosePrice;
     
-    public Stock toStock(){
+    public Stock toStock() throws ParseException {
         Stock stock;
         ArrayList<Price> prices = new ArrayList<Price>();
-        for (String date:
+        for (String dateStr:
              dailyClosePrice.keySet()) {
-            double price = dailyClosePrice.get(date);
-            String[] dateSplit = date.split("/");
-            int month = Integer.parseInt(dateSplit[0]);
-            int day = Integer.parseInt(dateSplit[1]);
-            int year = Integer.parseInt(dateSplit[2]);
+            double price = dailyClosePrice.get(dateStr);
+            Date date = DATEFORMAT.parse(dateStr);
 
-            Price priceObj = new Price(new Date(year, month, day), price);
+            Price priceObj = new Price(date, price);
             prices.add(priceObj);
         }
         stock = new Stock(prices);

@@ -21,12 +21,18 @@ import utility.InputValidator;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.awt.*;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static utility.InputValidator.DATEFORMAT;
 
 // TODO - add your @Path here
 @Path("resource")
@@ -36,9 +42,12 @@ public class StockResource {
     // Your service should return data based on 3 inputs
     // Stock ticker, start date and end date
     @GET
-    @Path("/stock")
+    @Path("stock/ticker/{ticker}/startDate/{startDate}/endDate/{endDate}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStock(String ticker, Date startDate, Date endDate) throws IOException {
+    public Response getStock(@PathParam("ticker") String ticker, @PathParam("startDate") String startDateStr, @PathParam("endDate") String endDateStr) throws IOException, ParseException {
+        Date startDate = DATEFORMAT.parse(startDateStr);
+        Date endDate = DATEFORMAT.parse(endDateStr);
+
         if(Stock.mapFilled){
             Stock stock = Stock.stocks.get(ticker);
             stock.setStartDate(startDate);

@@ -27,12 +27,14 @@ import pojo.JStock;
 import pojo.Stock;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class InputValidator {
-
+    public static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("M-dd-yyyy");
     private static final ObjectMapper mapper = new ObjectMapper();
     // TODO - write a method that will validate your JSON input files
     public static List<Company> readAllCompanies (String fileName) throws IOException {
@@ -44,7 +46,7 @@ public class InputValidator {
            return null;
     }
 
-    public static void readAllStocks(String fileName) throws IOException, FileNotFoundException {
+    public static void readAllStocks(String fileName) throws IOException, ParseException {
         if (fileName != null && !Stock.mapFilled) {
             InputStream inputStream = new FileInputStream(("data" + File.separatorChar + fileName));
             List<JStock> JList =  mapper.readValue(inputStream, new TypeReference<JStock>() {});
